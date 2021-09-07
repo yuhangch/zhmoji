@@ -60,9 +60,12 @@ def MSPY_initial_key_parser(pinyin_part: str) -> str:
 def MSPY_final_key_parser(pinyin_part: str, bare: bool) -> str:
     if bare:
         # 微软拼音特殊规则
+        print(pinyin_part)
         if pinyin_part == "er":
             return "or"
-        return "o" + pinyin_part
+        elif pinyin_part in "eoa":
+            return "o" + pinyin_part
+        return "o" + layout[pinyin_part]
     if len(pinyin_part) == 1 and pinyin_part in "euioa":
         return pinyin_part
     return layout[pinyin_part]
