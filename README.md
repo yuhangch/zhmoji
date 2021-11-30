@@ -92,7 +92,8 @@
 安装依赖，执行脚本
 ```shell
    pip3 install -r scripts/requirements.txt
-   python3 scripts/generate.py
+   cd scripts
+   python3 generate.py
 ```
 生成的`PhraseEdit.shuangpin.txt`使用方法与上述相同。
 

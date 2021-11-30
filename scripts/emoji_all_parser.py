@@ -4,7 +4,7 @@ from typing import List, Dict
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
-from scripts.common import write_json
+from common import write_json
 
 
 def write_emoji_json(emoji_all: str, output: str):

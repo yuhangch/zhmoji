@@ -6,7 +6,7 @@ from typing import List
 
 from pypinyin import pinyin, NORMAL, INITIALS, FINALS
 
-from scripts.common import write_json, initial_key_parser, final_key_parser
+from common import write_json, initial_key_parser, final_key_parser
 
 emoji_data_path = "../json/data.json"
 
