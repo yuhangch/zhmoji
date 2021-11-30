@@ -70,6 +70,63 @@ def MSPY_final_key_parser(pinyin_part: str, bare: bool) -> str:
         return pinyin_part
     return layout[pinyin_part]
 
+Xiaohe_Layout: Dict = {
+    "iu": "q",
+    "ei": "w",
+    "uan": "r",
+    "ue": "t",
+    "ve": "t",
+    "un": "y",
+    "uo":"o",
+    "ie":"p",
+    "ong": "s",
+    "iong": "s",
+    "ai": "d",
+    "en": "f",
+    "eng": "g",
+    "ang": "h",
+    "an": "j",
+    "uai": "k",
+    "ing": "k",
+    "uang": "l",
+    "iang": "l",
+    "ou": "z",
+    "ua": "x",
+    "ia": "x",
+    "ao": "c",
+    "ui": "v",
+    "in": "b",
+    "iao": "n",
+    "ian": "m",
+    "sh": "u",
+    "ch": "i",
+    "zh": "v",
+}
+
+def Xiaohe_initial_key_parser(pinyin_part: str) -> str:
+    if len(pinyin_part) > 1:
+        return layout[pinyin_part]
+    elif pinyin_part in "qwrtypsdfghjklzxcbnm":
+        return pinyin_part
+    return ""
+
+
+def Xiaohe_final_key_parser(pinyin_part: str, bare: bool) -> str:
+    if bare:
+        # 小鹤双拼零声母情况
+        # 单字母韵母，零声母 + 韵母所在键，如： 啊＝aa 哦=oo 额=ee
+        if len(pinyin_part) == 1 and pinyin_part in "euioa":
+            return pinyin_part + pinyin_part
+        # 双字母韵母，零声母 + 韵母末字母，如： 爱＝ai 恩=en 欧=ou
+        elif len(pinyin_part) == 2:
+            return pinyin_part
+        # 三字母韵母，零声母 + 韵母所在键，如： 昂＝ah
+        else:
+            return pinyin_part[0] + layout[pinyin_part]
+    if len(pinyin_part) == 1:
+        return pinyin_part   
+    else:
+        return layout[pinyin_part]
 
 # 修改键盘配置
 layout = MS_Layout
