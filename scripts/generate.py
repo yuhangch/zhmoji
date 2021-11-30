@@ -1,6 +1,6 @@
-from scripts.emoji_all_parser import write_emoji_json
-from scripts.sogou_config import write_config
-from scripts.translate_pinyin import write_shuangpin_json, write_quanpin_json
+from emoji_all_parser import write_emoji_json
+from sogou_config import write_config
+from translate_pinyin import write_shuangpin_json, write_quanpin_json
 emoji_all_html = "emoji_all.html"
 raw_data_path = "../json/data.json"
 quanpin_data_path = "../json/quanpin.json"
