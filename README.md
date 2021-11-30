@@ -79,15 +79,15 @@
 
 依赖python环境：
 
-配置`scripts/common.py`中双拼方案配置和解析方法
+配置`scripts/common.py`中双拼方案配置和解析方法，例如改为小鹤双拼方案：
 ```
     ···
     # 修改双拼方案配置
-    layout = Your_Scheme_layout
+    layout = Xiaohe_Layout
     
     # 修改声母韵母转换方法
-    initial_key_parser = Your_Scheme_initial_key_parser
-    final_key_parser = Your_Scheme_final_key_parser
+    initial_key_parser = Xiaohe_initial_key_parser
+    final_key_parser = Xiaohe_final_key_parser
 ```
 安装依赖，执行脚本
 ```shell
