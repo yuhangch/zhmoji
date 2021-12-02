@@ -4,7 +4,7 @@ from typing import List, Dict
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
-from common import write_json
+from common import write_json, special_processors
 
 
 def write_emoji_json(emoji_all: str, output: str):
@@ -30,7 +30,6 @@ def write_emoji_json(emoji_all: str, output: str):
 
         for emoji_tag in section_emojis:
             e: dict = {}
-            # print(type(emoji))
             if type(emoji_tag) == Tag:
                 ok: Tag = emoji_tag
                 info_div = emoji_tag.div
@@ -43,7 +42,10 @@ def write_emoji_json(emoji_all: str, output: str):
                 alias = list(filter(None, alias[1:]))
 
                 e['emoji'] = emoji
-                e['alias'] = list(set(alias))
+                alias_set = set(alias)
+                for processor in special_processors:
+                    alias_set = processor(alias_set)
+                e['alias'] = list(alias_set)
 
                 if len(emoji) > 0:
                     emoji_list += [e]
@@ -51,7 +53,7 @@ def write_emoji_json(emoji_all: str, output: str):
                     count += 1
         category_index[category_title] = [count - _count, count]
         print(f"[{category_title}]：{_count}")
-    print(f"总计：{count}")
+    print(f"提取emoji总计：{count}")
 
     json_data = {
         # 每个分类对应的位置

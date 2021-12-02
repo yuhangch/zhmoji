@@ -3,6 +3,7 @@
 
 用作搜狗拼音自定义短语，输入😄而不是图片。
 ## 更新
+- 2021-12-02 添加`len() > 1`的emoji [issue#7](https://github.com/yuhangch/zhmoji/issues/7) ，适应多双拼方案。
 - 2021-11-30 增加小鹤双拼支持，感谢 [@raawaa](https://github.com/raawaa) 。
 - 2021-09-07 修复微软双拼单韵母解析错误。
 ## 数据
@@ -15,7 +16,7 @@
 ## 使用
 
 ### 数据
-- `json/data.json` 
+- `json/emoji.json` 
 
 提取自 https://copy.emojiall.com/zh-hans/ emoji数据。
 
@@ -47,7 +48,7 @@
 }
 ```
 - 拼音映射
-提取自`json/data.json`，通过提取emoji各个alias，形成一个关键字到多个emoji的映射。
+提取自`json/emoji.json`，通过提取emoji各个alias，形成一个关键字到多个emoji的映射。
 ```json lines
 {
   "a": [
@@ -63,34 +64,46 @@
   ···
 }
 ```
-1. `json/quanpin.json`
-2. `json/shuangpin.json`
+1. `json/emoji.quanpin.json`
+2. `json/emoji.shuangpin.{scheme}.json`
 
 
 ### 用于搜狗拼音：
-将下列文件内容拷贝到：搜狗拼音>高级设置>自定义短语>直接编辑配置文件。
+将下列文件内容拷贝到：搜狗拼音 > 高级设置 > 自定义短语 > 直接编辑配置文件。
 
 可选：关掉搜狗输入法默认的表情、图片推荐。
 #### 全拼
 `PhraseEdit.quanpin.txt`
 
-#### 微软双拼方案
+#### 双拼方案
 
-`PhraseEdit.shuangpin.txt`
+- 微软双拼 `PhraseEdit.shuangpin.mspy.txt`
+- 小鹤双拼 `PhraseEdit.shuangpin.xiaohe.txt`
 
 #### 其他双拼方案
 
 依赖python环境：
 
-配置`scripts/common.py`中双拼方案配置和解析方法，例如改为小鹤双拼方案：
+配置`scripts/common.py`中双拼方案配置和解析方法，例如添加小鹤双拼方案：
 ```
-    ···
-    # 修改双拼方案配置
-    layout = Xiaohe_Layout
+    # 布局方案
+    Xiaohe_Layout = {···}
+    # 声母解析器
+    def Xiaohe_initial_key_parser(pinyin_part: str) -> str:
+        pass
+    # 韵母解析器    
+    def Xiaohe_final_key_parser(pinyin_part: str) -> str:
+        pass
     
-    # 修改声母韵母转换方法
-    initial_key_parser = Xiaohe_initial_key_parser
-    final_key_parser = Xiaohe_final_key_parser
+    # 注册双拼方案
+    shuangpin_schemes = [
+    ···,
+    ShuangpinScheme("xiaohe",
+                    "小鹤双拼",
+                    Xiaohe_Layout,
+                    Xiaohe_initial_key_parser,
+                    Xiaohe_final_key_parser),
+    ]
 ```
 安装依赖，执行脚本
 ```shell
@@ -98,7 +111,7 @@
    cd scripts
    python3 generate.py
 ```
-生成的`PhraseEdit.shuangpin.txt`使用方法与上述相同。
+生成的`PhraseEdit.shuangpin.{custom-scheme}.txt`使用方法与上述相同。
 
 ## 存在的问题
 
