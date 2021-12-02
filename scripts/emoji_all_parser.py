@@ -45,7 +45,7 @@ def write_emoji_json(emoji_all: str, output: str):
                 e['emoji'] = emoji
                 e['alias'] = list(set(alias))
 
-                if len(emoji) == 1:
+                if len(emoji) > 0:
                     emoji_list += [e]
                     _count += 1
                     count += 1
